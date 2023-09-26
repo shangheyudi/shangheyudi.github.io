@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>layout 管理界面大布局示例 - Layui</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="layui/css/layui.css" rel="stylesheet">
+</head>
+<style>
+	body {
+		background: #13191b;
+	}
+
+	.layui-carousel>[carousel-item]>* {
+		background-color: #13191b;
+	}
+
+	/* 轮播图右侧按钮底部间距 */
+	.supply_button {
+		margin-bottom: 20px;
+	}
+
+	.widget-external::after {
+		content: "";
+		position: absolute;
+		z-index: 150;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 70px;
+		background-image: linear-gradient(to bottom, rgba(19, 25, 27, 0) 0, #13191b 100%);
+	}
+
+	.widget-external__poster {
+		position: absolute;
+		z-index: 100;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		backface-visibility: hidden;
+		transition: all .3s ease;
+	}
+
+	/* 隐藏上一层图片 */
+	.widget-external__poster--alt {
+		opacity: 0;
+	}
+
+	/* 显示上一层图片 */
+	.widget-external__poster--alt:hover {
+		opacity: 1;
+	}
+
+	/* 内容标题 */
+	.section__title {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		min-height: 45px;
+		margin-bottom: 20px;
+		font-family: "RobotoCondensed", sans-serif;
+		font-size: 30px;
+		line-height: 1.17;
+		color: #cfd8dc;
+	}
+</style>
+
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<!-- 菜单menu -->
+		<div class="layui-header">
+			<div class="layui-logo layui-hide-xs" style="width: 48px;height: 60px;line-height: 80px;">
+				<svg width="20" height="26">
+					<path
+						d="M15.2538 1.89456C15.196 1.58963 15.5949 1.46743 15.5701 0.867267C15.5371 -0.511617 13.5908 -0.183517 14.0653 1.40699C14.7834 4.00961 14.2617 5.81839 13.8078 6.7304C13.5822 7.18633 13.1489 6.64246 13.0775 6.30736C12.5301 3.73495 11.5021 3.06196 12.1554 1.29848C12.6699 -0.0886358 10.513 -0.64762 10.6506 1.32463C10.6644 1.75175 11.2046 4.35116 11.1551 5.85224C11.1497 6.0336 10.6902 6.15851 10.4867 6.08161C9.54999 5.72867 8.53713 5.55196 7.60038 5.51212C3.48492 5.51212 0 8.84822 0 12.9574C0 16.0395 1.68175 18.4801 4.18925 19.5074C3.64455 20.2765 3.7545 21.0332 3.27037 22C7.23456 21.995 8.21795 19.1423 10.7914 19.1506C13.1683 19.1479 13.0156 19.1684 15.3951 19.1341C15.8738 19.1259 15.662 18.1737 15.5547 17.9746C12.9208 13.0894 15.9581 9.35636 15.9924 8.0653C16.0487 5.89538 15.7915 4.75684 15.2538 1.89456ZM12.2811 16.9817C10.475 16.6107 7.49175 18.8921 5.6334 18.5541C4.63902 18.3633 3.84261 14.7952 3.18384 13.1814C2.9761 12.6966 2.68716 12.511 2.46164 12.1554C2.25534 11.8285 2.41211 11.4206 2.3571 11.2146C2.03117 9.98956 5.69809 8.08328 8.94427 7.58193L11.7721 7.72345L11.9744 8.52689L12.8533 8.72045L12.6222 10.2793L8.55225 9.69841C7.03779 10.2903 5.97457 10.4207 4.81231 11.492C5.05988 11.871 4.90439 12.3957 5.16038 12.7747C5.24969 12.9081 5.68162 12.9548 5.76961 13.0797C5.61554 13.4725 6.1602 14.4162 6.21389 14.666L6.51792 16.5393C7.91266 16.0476 9.75022 15.1782 10.8423 15.0725C11.6718 15.0877 11.0308 13.717 10.863 12.9574C10.6581 12.0043 9.21242 12.8585 7.97173 13.375L8.58795 14.6881L8.09274 15.4048L7.86722 14.8802L7.53161 15.1632L6.60322 12.6087L7.30735 11.7433L8.10516 11.981C8.95383 11.6116 10.2399 10.6008 11.2426 11.0306C11.4599 11.124 11.4738 11.319 11.5603 11.6637L12.0308 11.8683C12.3045 13.3832 14.3416 17.4046 12.2811 16.9817Z"
+						fill="currentColor"></path>
+				</svg>
+			</div>
+			<!-- 头部区域（可配合layui 已有的水平导航） -->
+			<ul class="layui-nav layui-layout-left" style="left: 48px;">
+				<!-- 移动端显示 -->
+				<li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+					<i class="layui-icon layui-icon-spread-left"></i>
+				</li>
+				<li class="layui-nav-item" lay-on="test-offset-t">
+					<!-- 下拉面板 -->
+					<a href="javascript:;">游戏</a>
+					<!-- <dl class="layui-nav-child">
+							<dd><a href="javascript:;">menu 11</a></dd>
+							<dd><a href="javascript:;">menu 22</a></dd>
+							<dd><a href="javascript:;">menu 33</a></dd>
+						</dl> -->
+				</li>
+				<li class="layui-nav-item layui-hide-xs"><a href="javascript:;">商店</a></li>
+				<li class="layui-nav-item layui-hide-xs"><a href="javascript:;">支持</a></li>
+				<li class="layui-nav-item layui-hide-xs"><a href="javascript:;">搜索</a></li>
+
+			</ul>
+			<ul class="layui-nav layui-layout-right">
+				<li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+					<a href="javascript:;">
+						<img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+						登录
+					</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">Your Profile</a></dd>
+						<dd><a href="javascript:;">Settings</a></dd>
+						<dd><a href="javascript:;">Sign out</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">浏览器语言</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">中文</a></dd>
+						<dd><a href="javascript:;">ENGLISH</a></dd>
+						<dd><a href="javascript:;">POLSKI</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+					<a href="javascript:;">
+						<i class="layui-icon layui-icon-more-vertical"></i>
+					</a>
+				</li>
+			</ul>
+			<!-- 导航栏 -->
+
+		</div>
+		<div class="layui-header" style="top:60px;height: 140px;color: #cfd8dc;background-color: rgba(0,0,0,.6);">
+			<div class="layui-logo layui-hide-xs" style="line-height: 80px;">
+				<!-- <svg style="fill: #cfd8dc;">
+							<use href="https://warthunder.com/assets/img/svg/logo-wt.svg#logo-wt"></use>
+						</svg> -->
+				<svg xmlns="http://www.w3.org/2000/svg" id="logo-wt" viewBox="0 0 167 80" width="164" height="80"
+					style="fill: #cfd8dc; display: flex;align-items: center;height: 100%;margin: 0 auto;">
+					<path fill-rule="evenodd" clip-rule="evenodd"
+						d="M166 80H161L156 68H152V80H147V51H161.215L165.978 55.8333V63.0833L161.038 68L166 80ZM161.038 61V58L159 56H152V63H159L161.038 61ZM123 51L142 50.978V56H128V63H135V68H128V75H142V80H123V51ZM38 51H43V80H38V68H29V80H24V51H29V63H38V51ZM19 56H12V80H7V56H0V51H19V56ZM53 73L55 75H61L63 73V51H68V75L63 80H53L48 75V51H53V73ZM88 69.5V51H93V80H87.7634L78 61.5V80H73V51H78.5L88 69.5ZM118 56V75L113 80H98V51H113L118 56ZM103 56V75H111L113 73V58L111 56H104H103Z" />
+					<path fill-rule="evenodd" clip-rule="evenodd"
+						d="M121.278 45L121 44H123L122 41.5L122.5 40.5L126.5 39.5L126.137 38.661L131 37L134 45H121.278ZM130.2 35L125.5 36.1299L125.258 35.3459L122.399 36.1299C122.179 35.6147 122 35 122 35H120L119 33H114V32.2773C114 32.2773 112.13 31.8741 110.525 31.8741C108.898 31.8741 107 32.2773 107 32.2773V33H106L103.972 38.3922V25.9383C105.753 25.5127 107.249 25.1543 108.15 24.9527C108.832 24.7959 109.162 23.6536 109.338 21.8616C109.513 19.9577 109.184 19.8681 107.49 19.7561C106.545 19.6889 105.335 19.6217 103.994 19.5769V0.0224006H128L133 5V24L128 29L130.2 35ZM126 7H111V22H126V7ZM92.6036 44.7312C92.6036 44.328 92.6036 43.8576 92.6036 43.2081C92.6036 42.1329 92.0978 42.1105 90.9104 41.6625C89.2392 41.0129 86.6005 40.4754 86.6005 40.4754C86.6005 40.4754 87.3261 31.9189 87.3921 31.3365C87.4801 30.5973 87.9199 30.3061 88.8214 29.8805C89.3052 29.6565 92.0979 28.9174 95.4402 28.0662L100 45H92.5376C92.6036 44.8656 92.6036 44.7536 92.6036 44.7312ZM87.3921 18.009C87.3481 17.3594 87.4141 11.9836 86.9083 10.9308C86.4246 9.87805 85.3031 8.5789 85.3031 8.5789H84.4455C84.4455 8.5789 83.3461 9.87805 82.8403 10.9308C82.3566 11.9836 82.4225 17.3594 82.3565 18.009C82.3126 18.6585 82.1806 18.8601 81.3011 19.0393C80.8173 19.1289 78.9922 19.1961 76.5733 19.2633L81.3011 0L88.4256 0.0224006L93.1314 19.2633C90.7345 19.1961 88.9094 19.1289 88.4256 19.0393C87.546 18.8601 87.4361 18.6585 87.3921 18.009ZM82.4005 31.3365C82.4665 31.9189 83.1921 40.4754 83.1921 40.4754C83.1921 40.4754 80.5314 41.0353 78.8822 41.6625C77.6948 42.1105 77.189 42.1553 77.189 43.2081C77.189 43.8576 77.189 44.328 77.189 44.7312C77.189 44.7536 77.1671 44.8656 77.255 45H69.9985L74.3304 28.0438C77.6948 28.895 80.4655 29.6341 80.9712 29.8581C81.8508 30.2837 82.3126 30.5749 82.4005 31.3365ZM62.2803 19.7337L65 0H72.5L69.6907 19.4201C66.854 19.5097 64.1054 19.5993 62.2803 19.7337ZM66.0844 45H59.5975H55.0677V33.778C55.0677 33.778 55.2437 33.7108 54.1662 33.778C53.0887 33.8452 48.339 37.0483 45.7442 37.9219C43.1715 38.773 38.2239 39.0418 38.2239 39.0418C38.2239 39.0418 40.2689 41.3265 41.5883 43.6336C41.8301 44.0368 42.028 44.5072 42.2259 45H38.2459L32 0H39.5L43.1715 28.4918L47.2175 4H54V12C53.3183 12.0896 52.9128 12.0732 52.2971 12.5884C52.2971 12.9915 52.2971 13.6192 52.2971 14H47L50 15H53L52.9787 20.8313C51.9672 21.0329 50.9777 21.4584 50.0542 22.0632C50.0542 22.9592 50.0542 23.8328 50.0542 24.7287C50.2741 24.7287 50.4939 24.7287 50.7138 24.7287V29.7461H49.0207L44.3369 27.1702L43.8312 28.0662L48.6688 31.0901L48.2071 32.7924H48.1411L41.1924 28.9622L40.6867 29.8581L45.4804 32.8596L44.7547 34.4724L38.048 30.7765L37.5422 31.6725L44.161 35.8163L43.5233 37.2275C44.2929 37.0931 45.0406 36.9139 45.6343 36.7123C48.273 35.8163 53.0667 32.546 54.1662 32.4564C54.452 32.434 54.584 32.434 54.6279 32.4116C54.6719 32.4116 54.8039 32.434 55.0897 32.4564C56.1892 32.5236 60.9829 35.8163 63.6216 36.7123C64.2373 36.9139 64.963 37.0931 65.7326 37.2275L63.7755 32.8596H61.0488L60.2133 29.8357H58.5201V24.8183C58.74 24.8183 58.9599 24.8183 59.1798 24.8183C59.1798 23.9223 59.1798 23.0488 59.1798 22.1528C58.2782 21.548 57.2887 21.1448 56.2771 20.9209L56 15H58.9L61.2028 28.2454L61.6206 25.0199C61.6206 25.0199 61.6206 25.0199 61.6426 25.0199C63.0059 25.3335 65.7106 25.9831 68.7011 26.7222L66.0844 45ZM56.9588 12.5884C56.3651 12.0732 55.7714 12.0896 55.0897 12V4H56.9368L58.75 14H57C57.022 13.5968 56.9588 12.9691 56.9588 12.5884ZM107.93 38.0114L108.92 35.8835L109.909 38.0114L112.218 38.3026L110.525 39.9154L110.965 42.2449L108.942 41.1025L106.919 42.2449L107.358 39.9154L105.665 38.3026L107.93 38.0114Z" />
+					<path fill-rule="evenodd" clip-rule="evenodd"
+						d="M22.5 32L17.5 29L12.5 32L13.5 26L9 22L15 21L17.5 15.5L20 21L26 22L21.5 26L22.5 32Z" />
+					<path fill-rule="evenodd" clip-rule="evenodd"
+						d="M154.5 32L149.5 29L144.5 32L145.5 26L141 22L147 21L149.5 15.5L152 21L158 22L153.5 26L154.5 32Z" />
+				</svg>
+			</div>
+			<ul class="layui-nav layui-layout-left">
+				<!-- 移动端显示 -->
+				<li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+					<i class="layui-icon layui-icon-spread-left"></i>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">游戏</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">关于游戏</a></dd>
+						<dd><a href="javascript:;">新闻</a></dd>
+						<dd><a href="javascript:;">开发日志</a></dd>
+						<dd><a href="javascript:;">军用车辆</a></dd>
+						<dd><a href="javascript:;">常用问题解答</a></dd>
+						<dd><a href="javascript:;">更新功告</a></dd>
+						<dd><a href="javascript:;">下载游戏</a></dd>
+						<dd><a href="javascript:;">邀请朋友</a></dd>
+						<dd><a href="javascript:;">Gaijin Pass</a></dd>
+						<dd><a href="javascript:;">有用的软件</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<!-- 下拉面板 -->
+					<a href="javascript:;">媒体</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">伙伴关系</a></dd>
+						<dd><a href="javascript:;">视频</a></dd>
+						<dd><a href="javascript:;">截图</a></dd>
+						<dd><a href="javascript:;">壁纸</a></dd>
+						<dd><a href="javascript:;">原生音轨</a></dd>
+						<dd><a href="javascript:;">新闻套件</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item layui-hide-xs"><a href="javascript:;">新手教程</a></li>
+				<li class="layui-nav-item">
+					<!-- 下拉面板 -->
+					<a href="javascript:;">工作室</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">War Thunder CDK</a></dd>
+						<dd><a href="javascript:;">涂装</a></dd>
+						<dd><a href="javascript:;">任务</a></dd>
+						<dd><a href="javascript:;">地点</a></dd>
+						<dd><a href="javascript:;">模型</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<!-- 下拉面板 -->
+					<a href="javascript:;">社区</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">WT社区</a></dd>
+						<dd><a href="javascript:;">图片</a></dd>
+						<dd><a href="javascript:;">视频</a></dd>
+						<dd><a href="javascript:;">论坛</a></dd>
+						<dd><a href="javascript:;">维基</a></dd>
+						<dd><a href="javascript:;">寻找玩家</a></dd>
+						<dd><a href="javascript:;">战斗回放</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<!-- 下拉面板 -->
+					<a href="javascript:;">电子竞技</a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;">锦标赛</a></dd>
+						<dd><a href="javascript:;">联队排行榜</a></dd>
+						<dd><a href="javascript:;">联队</a></dd>
+						<dd><a href="javascript:;">排行榜</a></dd>
+					</dl>
+				</li>
+			</ul>
+			<div class="layui-nav layui-layout-right">
+				<div class="layui-nav-item layui-hide layui-show-sm-inline-block">现在就注册吧!</div>
+			</div>
+		</div>
+		<div class="layui-body" style="top:200px;left: 0px;">
+			<!-- 内容主体区域 -->
+			<div style="padding: 50px 50px 50px 50px;">
+				<!-- <blockquote class="layui-elem-quote " style="height: 852px;">
+					背景视频
+				</blockquote> -->
+
+				<div class="layui-card layui-panel" style="background-color: transparent;border: none;">
+					<div class="layui-row">
+						<div class="layui-col-md9">
+							<div class="layui-row grid-demo">
+
+								<div class="layui-col-md12">
+									<div class="grid-demo grid-demo-bg3">
+										<div class="layui-carousel" id="ID-carousel-demo-image"
+											style="margin-right: 15px;">
+											<div carousel-item style="">
+												<div><img src="https://unpkg.com/outeres/demo/carousel/720x360-1.jpg">
+												</div>
+												<div><img src="https://unpkg.com/outeres/demo/carousel/720x360-2.jpg">
+												</div>
+												<div><img src="https://unpkg.com/outeres/demo/carousel/720x360-3.jpg">
+												</div>
+												<div><img src="https://unpkg.com/outeres/demo/carousel/720x360-4.jpg">
+												</div>
+												<div><img src="https://unpkg.com/outeres/demo/carousel/720x360-5.jpg">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md3">
+							<div class="layui-row grid-demo grid-demo-bg1">
+								<div class="supply_button" style="">
+									<button type="button" class="layui-btn layui-btn-fluid" style="font-weight: 500;
+									height: 50px;
+										color: #fff;
+										border-color: #e53935;
+										border-radius: 3px;
+										background-color: rgba(229,57,53,.7);
+										">
+										现在就注册吧!
+									</button>
+
+								</div>
+								<div class="layui-col-md12">
+									<div class="supply_button" style="">
+
+										<button type="button" class="layui-btn layui-btn-fluid" style="font-weight: 500;
+										height: 50px;
+										color: #fff;
+										border-color: #e53935;
+										border-radius: 3px;
+										background-color: rgba(229,57,53,.7);
+										">
+											流体按钮（宽度自适应）</button>
+
+									</div>
+								</div>
+								<div class="layui-col-md12 supply_button"
+									style="border: 1px #fb8c00 solid;overflow: hidden;cursor: pointer;">
+
+									<div class="widget-external" style="height: 158px;">
+										<a class="widget-shop-link" href=" "></a>
+										<img class="widget-external__poster" src="static/images/widget-shop.jpg">
+										<img class="widget-external__poster widget-external__poster--alt "
+											src="static/images/widget-shop_big.jpg">
+									</div>
+
+								</div>
+								<div class="layui-col-md12">
+									<div class="supply_button" style="">
+
+										<button type="button" class="layui-btn layui-btn-fluid" style="font-weight: 500;
+										height: 40px;
+										color: #90a4ae;
+										border: 1px #90a4ae solid;
+										border-radius: 3px;
+										background-color: transparent
+										">
+											兑换激活码</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="section__title">新闻
+						<a style="font-size: 18px;margin-left: 15px;cursor: pointer;">更多新闻></a>
+					</div>
+
+					<!-- <div class="layui-card-header">
+						新闻
+					</div> -->
+					<div class="layui-card-body">
+						<div style="background-color: #e53935;width: 380px;height: 370px;">
+
+						</div>
+						<div style="background-color: #e53935;width: 380px;height: 370px;">
+
+						</div>
+					</div>
+					<div class="layui-card-header">
+						下面是充数内容，为的是出现滚动条
+
+					</div>
+				</div>
+				<br><br>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="layui/layui.js"></script>
+	<script>
+		//JS 
+		layui.use(['element', 'layer', 'util'], function () {
+			var element = layui.element;
+			var layer = layui.layer;
+			var util = layui.util;
+			var $ = layui.$;
+
+			element.render('nav');
+			util.on('lay-on', {
+				'test-offset-t': function () {
+					layer.open({
+						type: 1,
+						offset: 't',
+						anim: 'slideDown', // 从上往下
+						area: ['100%', '450px'],
+						shade: 0.1,
+						shadeClose: true,
+						id: 'ID-demo-layer-direction-t',
+						content: '<div style="padding: 16px;">网站轮播图</div>'
+					});
+				},
+			});
+			//头部事件
+			util.event('lay-header-event', {
+				menuLeft: function (othis) { // 左侧菜单事件
+					// layer.msg('展开左侧菜单的操作', {
+					// 	icon: 0
+					// });
+					layer.open({
+						type: 1,
+						title: '更多',
+						content: '<div style="padding: 15px;">处理左侧面板的操作</div>',
+						area: ['100%', '260px'],
+						offset: 'rt', // 右上角
+						anim: 'slideRight', // 从右侧抽屉滑出
+						shadeClose: true,
+						scrollbar: true
+					});
+				},
+				menuRight: function () { // 右侧菜单事件
+					layer.open({
+						type: 1,
+						title: '更多',
+						content: '<div style="padding: 15px;">处理右侧面板的操作</div>',
+						area: ['260px', '100%'],
+						offset: 'rt', // 右上角
+						anim: 'slideLeft', // 从右侧抽屉滑出
+						shadeClose: true,
+						scrollbar: true
+					});
+				}
+			});
+			var carousel = layui.carousel;
+			// 渲染 - 图片轮播
+			carousel.render({
+				elem: '#ID-carousel-demo-image',
+				anim: 'fade',
+				width: 'auto',
+				height: '300px',
+				interval: 3000
+			});
+		});
+	</script>
+</body>
+
+</html>
