@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo</title>
+  <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+  <link href="layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div id="test"></div>
+<!-- import layui -->
+
+<script src="layui/layui.js"></script>
+<script>
+layui.use(function(){
+  var element = layui.element;
+  var $ = layui.$;
+  // 动态插入导航元素
+  $('#test').html(`
+    <div class="layui-nav" lay-filter="demo-filter-nav">
+      <li class="layui-nav-item layui-this"><a href="">选中</a></li>
+      <li class="layui-nav-item"><a href="">菜单</a></li>
+      <!-- … -->
+    </div>
+  `);
+  // 渲染导航组件
+  element.render('nav', 'demo-filter-nav');
+});
+</script>
+</body>
+</html>

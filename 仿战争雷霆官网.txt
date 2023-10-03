@@ -1,0 +1,53 @@
+使用前端框架layui进行编写, 后台服务语言未定
+2023/6/8
+开始仿写战争雷霆官网,
+2023/6/9
+仿写导航栏大概,但搞不明白layui下拉面板content内编写侧边栏菜单时,发现下拉菜单没有生效
+发现属性content:''  ,单引号不支持代码换行,
+解决: 使用 ` ` 引号,可以换行,但有问题:  下拉菜单的下拉效果没有生效
+2023/6/10
+尚未解决下拉面板内下拉菜单效果失效问题
+
+找到属性content内多标签使用方式,样式如下
+ content:['<div class="layui-tab layui-tab-brief">',
+                '<ul class="layui-tab-title">',
+                    '<li class="layui-this">Tab header 1</li>',
+                    '<li>Tab header 2</li>',
+                    '<li>Tab header 3</li>',
+                '</ul>',
+            '</div>'].join(''),
+
+测试下拉菜单,代码如下
+layer.open({
+						type: 1,
+						offset: 'l',
+						anim: 'slideRight', // 从左往右
+						area: ['320px', '100%'],
+						shade: 0.1,
+						shadeClose: true,
+						id: 'ID-demo-layer-direction-l',
+						content: ['<div style="padding: 16px;" id="layui-header">',
+							'<ul class="layui-nav layui-nav-tree layui-nav-side">',
+							'<li class="layui-nav-item layui-nav-itemed">',
+							'<a href="javascript:;">默认展开</a>',
+							'<dl class="layui-nav-child">',
+							'<dd><a href="javascript:;">选项1</a></dd>',
+							'<dd><a href="javascript:;">选项2</a></dd>',
+							'<dd><a href="javascript:;">选项3</a></dd>',
+							'</dl>',
+							'</li>',
+							'<li class="layui-nav-item">',
+							'<a href="javascript:;">默认收缩</a>',
+							'<dl class="layui-nav-child">',
+							'<dd><a href="javascript:;">选项1</a></dd>',
+							'<dd><a href="javascript:;">选项2</a></dd>',
+							'<dd><a href="javascript:;">选项3</a></dd>',
+							'</dl>',
+							'</li>',
+							'</ul>',
+							'</div > '].join(''),
+
+					});
+表现:下拉菜单的下拉效果仍不生效
+ $('#test').html(`ddd`)无法选中属性content:'<div id="test"></div>'  的id
+ 只能选中body中<div id="test"></div>的id
