@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        img {
+            position: absolute;
+            top: 2px;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            cursor: pointer;
+        }
+
+        p {
+            position: absolute;
+            top: 2px;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="static/DONGHUA/berber-sketch-01.png" alt="" />
+    <p>hhhhhhhhhhh</p>
+</body>
+<script>
+    var pi = document.querySelector('img');
+    document.addEventListener('mousemove', function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+        pi.style.left = x + 10 + 'px';
+        pi.style.top = y + 10 + 'px';
+
+
+    });
+    var pic = document.querySelector('p');
+    document.addEventListener('mousemove', function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+        pic.style.left = x - 50 + 'px';
+        pic.style.top = y - 50 + 'px';
+
+
+    });
+</script>
+
+</html>

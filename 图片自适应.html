@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上河雨滴</title>
+</head>
+
+
+<body>
+    <div>
+        <div class="div2">
+            <div class="image1">
+                <img src="static/DONGHUA/berber-sketch-01.png" alt="" id="img1">
+            </div>
+            <div class="image2">
+                <img src="static/DONGHUA/berber-sketch-02.png" alt="">
+            </div>
+            <div class="image3">
+                <img src="static/DONGHUA/berber-sketch-03.png" alt="">
+            </div>
+            <div class="image4">
+                <img src="static/DONGHUA/berber-sketch-04.png" alt="">
+            </div>
+
+        </div>
+
+    </div>
+    <p id="img2">dd</p>
+</body>
+<style>
+    /* .self-adaption {
+        width: 900px;
+        height: 600px;
+        border: 4px solid black;
+        display: table-cell;
+        vertical-align: middle;
+
+    }
+
+    .self-adaption img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin: auto;
+    } */
+    .div2 {
+        width: 900px;
+        height: 600px;
+        border: 2px solid black;
+        background-color: rgb(207, 231, 142);
+    }
+
+    .div2 img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin: auto;
+    }
+
+    .image1 {
+        position: absolute;
+    }
+
+    .image2 {
+        position: absolute;
+        top: 0rpx;
+    }
+
+    .image3 {
+        position: absolute;
+        top: 80rpx;
+    }
+
+    .image4 {
+        position: absolute;
+        top: 50rpx;
+    }
+
+    #img2 {
+        cursor: pointer;
+    }
+</style>
+<script>
+    document.addEventListener("mouseover", myFunction);
+    function myFunction() {
+        var i = document.getElementById("img1")
+        console.log(i)
+        console.log(window.innerWidth + " " + window.innerHeight)
+
+    }
+
+    window.onload = function () {
+        var pic = document.querySelector('p');
+        pic.addEventListener("mousemove", myFunction1)
+        function myFunction1(e) {
+            console.log('cc')
+            var x = e.pageX;
+            var y = e.pageY;
+            pic.style.left = x - 50 + 'px';
+            pic.style.top = y - 50 + 'px';
+        }
+    }
+</script>
+
+</html>
